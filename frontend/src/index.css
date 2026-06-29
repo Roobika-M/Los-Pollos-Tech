@@ -109,3 +109,11 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.walt{
+  color : pink;
+}
+
+h3{
+    color : yellow;
+}
