@@ -18,6 +18,9 @@ public class LosEntity {
     private String conditions;
     private String description;
 
+    public void losEntity(){
+
+    }
     public void setId(Long id){
         this.id = id;
     }
