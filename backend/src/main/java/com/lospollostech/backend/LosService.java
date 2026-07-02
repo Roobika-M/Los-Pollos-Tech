@@ -38,4 +38,13 @@ public class LosService {
     public void deleteReaction(Long id) {
         losRepo.deleteById(id);
     }
+
+    public List<LosEntity> mix(String reactantOne, String reactantTwo){
+        return losRepo.findByReactantOneAndReactantTwoOrReactantOneAndReactantTwo(
+            reactantOne,
+            reactantTwo,
+            reactantTwo,
+            reactantOne
+        );
+    }
 }
