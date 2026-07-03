@@ -30,7 +30,6 @@ function Mix(){
             <input type = "text" placeholder="Reactant One" value = {reactantOne} onChange={(event) => setReactantOne(event.target.value)}/>   {/*event.target.value contains the updated value and sends*/}
             <input type = "text" placeholder="Reactant Two" value = {reactantTwo} onChange={(event) => setReactantTwo(event.target.value)}/>
             <button onClick={handleMix}>Mix</button>
-            <p>{message}</p>
             {reactions.map((reaction) => (
             <div key = {reaction.id}>
                 <h3>{reaction.product}</h3>
@@ -39,6 +38,7 @@ function Mix(){
                 <p><strong>Description:</strong> {reaction.description}</p>
             </div>
             ))}
+            <p>{message}</p>
         </div>
     );
 }
