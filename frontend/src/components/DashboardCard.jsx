@@ -1,4 +1,4 @@
-function DashboardCard({title,description,buttonText,onClick}){
+function DashboardCard({title,description,onClick}){
     return(
         <div onClick = {onClick}
             style = {{
@@ -11,9 +11,6 @@ function DashboardCard({title,description,buttonText,onClick}){
         >
         <h2>{title}</h2>
         <p>{description}</p>
-        <button onClick = {onClick}>
-            {buttonText}
-        </button>
         </div>
     );
 }
