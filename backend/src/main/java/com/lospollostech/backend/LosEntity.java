@@ -18,7 +18,7 @@ public class LosEntity {
     private String conditions;
     private String description;
 
-    public void losEntity(){
+    public LosEntity(){
 
     }
     public void setId(Long id){
