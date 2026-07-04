@@ -7,7 +7,7 @@ function ViewReactions() {
 
   const getReactions = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/los/get");
+      const response = await axios.get(`http://localhost:8080/los/get`);
       setReactions(response.data);
       setMessage("");
     } catch (error) {
@@ -19,6 +19,11 @@ function ViewReactions() {
   useEffect(() => {
     getReactions();
   }, []);
+
+  const deleteReaction = async (id) => {
+    const response = await axios.delete(`http://localhost:8080/los/delete/${id}`);
+    getReactions();
+  }
 
   return (
     <div>
@@ -57,6 +62,7 @@ function ViewReactions() {
             <p>
               <strong>Description:</strong> {reaction.description}
             </p>
+            <button onClick={() => deleteReaction(reaction.id)}>Delete</button>
           </div>
         ))
       )}
