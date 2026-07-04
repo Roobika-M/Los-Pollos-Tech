@@ -6,7 +6,7 @@ import Mix from "./pages/Mix";
 import AddReaction from "./pages/AddReaction";
 import ViewReactions from "./pages/ViewReactions";
 
-function App (){
+function App() {
   return (
     <BrowserRouter>
       <Routes>

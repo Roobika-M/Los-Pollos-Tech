@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import HazardStripe from "../components/HazardStripe";
 
 function AddReaction() {
   const [reactantOne, setReactantOne] = useState("");
@@ -12,17 +13,14 @@ function AddReaction() {
 
   const addReaction = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/los/add`,
-        {
-          reactantOne,
-          reactantTwo,
-          product,
-          reactionType,
-          conditions,
-          description,
-        }
-      );
+      const response = await axios.post(`http://localhost:8080/los/add`, {
+        reactantOne,
+        reactantTwo,
+        product,
+        reactionType,
+        conditions,
+        description,
+      });
 
       console.log(response.data);
 
@@ -48,66 +46,53 @@ function AddReaction() {
     }
   };
 
+  const fields = [
+    { label: "Reactant One", value: reactantOne, set: setReactantOne, placeholder: "e.g. Sodium" },
+    { label: "Reactant Two", value: reactantTwo, set: setReactantTwo, placeholder: "e.g. Chlorine" },
+    { label: "Product", value: product, set: setProduct, placeholder: "e.g. Sodium Chloride" },
+    { label: "Reaction Type", value: reactionType, set: setReactionType, placeholder: "e.g. Synthesis" },
+    { label: "Conditions", value: conditions, set: setConditions, placeholder: "e.g. Heat, 400°C" },
+    { label: "Description", value: description, set: setDescription, placeholder: "Field notes on the procedure" },
+  ];
+
   return (
-    <div>
-      <h2>Add a New Re-action</h2>
-      <input
-        type="text"
-        placeholder="Reactant One"
-        value={reactantOne}
-        onChange={(event) => setReactantOne(event.target.value)}
-      />
-      <br /><br />
-      <input
-        type="text"
-        placeholder="Reactant Two"
-        value={reactantTwo}
-        onChange={(event) => setReactantTwo(event.target.value)}
-      />
+    <div className="app-shell">
+      <HazardStripe thin />
 
-      <br /><br />
+      <div className="container" style={{ paddingTop: "40px", maxWidth: "620px" }}>
+        <span className="label-tag">FIELD LOG ENTRY</span>
+        <h1 style={{ fontSize: "clamp(26px, 4.5vw, 40px)", marginTop: "14px" }}>
+          Log a new procedure
+        </h1>
+        <p className="muted" style={{ marginTop: "8px", marginBottom: "28px" }}>
+          Every detail matters. Incomplete entries won't clear review.
+        </p>
 
-      <input
-        type="text"
-        placeholder="Product"
-        value={product}
-        onChange={(event) => setProduct(event.target.value)}
-      />
+        <div className="panel panel-rivets" style={{ padding: "26px" }}>
+          {fields.map((field) => (
+            <div className="field-group" key={field.label}>
+              <label className="field-label">{field.label}</label>
+              <input
+                className="field-input"
+                type="text"
+                placeholder={field.placeholder}
+                value={field.value}
+                onChange={(event) => field.set(event.target.value)}
+              />
+            </div>
+          ))}
 
-      <br /><br />
+          <button className="btn-hazard" style={{ width: "100%", marginTop: "6px" }} onClick={addReaction}>
+            Commit to Ledger
+          </button>
 
-      <input
-        type="text"
-        placeholder="Reaction Type"
-        value={reactionType}
-        onChange={(event) => setReactionType(event.target.value)}
-      />
-
-      <br /><br />
-
-      <input
-        type="text"
-        placeholder="Conditions"
-        value={conditions}
-        onChange={(event) => setConditions(event.target.value)}
-      />
-
-      <br /><br />
-
-      <input
-        type="text"
-        placeholder="Description"
-        value={description}
-        onChange={(event) => setDescription(event.target.value)}
-      />
-
-      <br /><br />
-
-      <button onClick={addReaction}>
-        Add Reaction
-      </button>
-
-      <p>{message}</p>
+          {message && (
+            <div className={`status-line ${message.includes("successfully") ? "ok" : "warn"}`}>
+              {message}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
