@@ -5,67 +5,104 @@ function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <div className="app-shell">
       <HazardStripe />
 
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          padding: "40px 20px",
-          background:
-            "radial-gradient(ellipse 70% 50% at 50% 30%, rgba(159,224,0,0.08), transparent 65%), var(--charcoal)",
-        }}
-      >
-        <span className="label-tag" style={{ marginBottom: "22px" }}>
-          RESTRICTED ACCESS · SITE 74B
-        </span>
+      <div className="page-hero" style={{ flex: 1 }}>
+        <div className="vapor-field">
+          <span />
+          <span />
+          <span />
+        </div>
 
-        <h1
-          style={{
-            fontSize: "clamp(40px, 8vw, 84px)",
-            lineHeight: 1,
-            maxWidth: "900px",
-          }}
-        >
-          The purest process
-          <br />
-          <span className="glow-text">yields the purest result.</span>
-        </h1>
+        <div className="container hero-grid">
+          <div className="hero-copy" style={{ textAlign: "left" }}>
+            <span className="label-tag" style={{ width: "fit-content" }}>
+              RESTRICTED ACCESS &middot; SITE 74B
+            </span>
 
-        <p
-          className="muted"
-          style={{
-            maxWidth: "520px",
-            marginTop: "22px",
-            fontSize: "17px",
-            lineHeight: 1.6,
-          }}
-        >
-          A private compound catalog for precision reactions. Every batch logged.
-          Every measurement exact. Enter the lab to begin work.
-        </p>
+            <h1
+              style={{
+                fontSize: "clamp(48px, 9vw, 112px)",
+                lineHeight: 0.92,
+                maxWidth: "10ch",
+                filter: "drop-shadow(0 6px 30px rgba(0,0,0,0.7))",
+              }}
+            >
+              The purest process
+              <br />
+              <span className="glow-text">yields the purest result.</span>
+            </h1>
 
-        <button
-          className="btn-hazard"
-          style={{ marginTop: "34px" }}
-          onClick={() => navigate("/home")}
-        >
-          Enter the Lab &rarr;
-        </button>
+            <p
+              className="muted"
+              style={{
+                maxWidth: "580px",
+                fontSize: "18px",
+                lineHeight: 1.65,
+                margin: 0,
+              }}
+            >
+              A private compound catalog for precision reactions. Every batch logged.
+              Every measurement exact. Enter the lab to begin work.
+            </p>
 
-        <div className="readout" style={{ marginTop: "40px", opacity: 0.7 }}>
-          TEMP: STABLE &nbsp;·&nbsp; VENTILATION: ON &nbsp;·&nbsp; YIELD TARGET: 99.1%
+            <div className="hero-actions" style={{ marginTop: "18px" }}>
+              <button
+                className="btn-hazard"
+                style={{ fontSize: "16px", padding: "18px 36px" }}
+                onClick={() => navigate("/home")}
+              >
+                Enter the Lab &rarr;
+              </button>
+              <button
+                className="btn-ghost btn-secondary"
+                style={{ fontSize: "16px", padding: "18px 28px" }}
+                onClick={() => navigate("/view")}
+              >
+                Open Ledger
+              </button>
+            </div>
+
+            <div className="hero-stats" style={{ marginTop: "20px" }}>
+              <div className="stat-card">
+                <span className="readout">TEMP</span>
+                <strong className="crystal-text">STABLE</strong>
+              </div>
+              <div className="stat-card">
+                <span className="readout">VENTILATION</span>
+                <strong style={{ color: "var(--toxic-hot)" }}>ONLINE</strong>
+              </div>
+              <div className="stat-card">
+                <span className="readout">YIELD TARGET</span>
+                <strong style={{ color: "var(--mustard)" }}>99.1%</strong>
+              </div>
+            </div>
+          </div>
+
+          <aside className="panel panel-rivets hero-panel">
+            <div>
+              <span className="inline-note">Operational Snapshot</span>
+              <h2 style={{ marginTop: "12px", fontSize: "28px" }}>The lab is live.</h2>
+              <p className="muted" style={{ margin: "8px 0 0", lineHeight: 1.6 }}>
+                Access the reaction console, review the stored catalog, and keep every
+                batch traceable from entry to export.
+              </p>
+            </div>
+
+            <div className="panel-row">
+              <span className="readout">STATUS</span>
+              <span style={{ color: "var(--toxic-hot)" }}>ACTIVE</span>
+            </div>
+            <div className="panel-row">
+              <span className="readout">VAULT</span>
+              <span className="crystal-text">SYNCED</span>
+            </div>
+            <div className="panel-row">
+              <span className="readout">ACCESS</span>
+              <span style={{ color: "var(--mustard)" }}>AUTHORIZED</span>
+            </div>
+          </aside>
         </div>
       </div>
 

@@ -14,15 +14,13 @@ import * as THREE from "three";
 
 function ReactantOrb({ side, status, color }) {
   const ref = useRef();
-  const t0 = useRef(Math.random() * Math.PI * 2);
+  const t0 = side === "left" ? 0 : Math.PI;
 
   useFrame((state) => {
-    const t = state.clock.getElapsedTime() + t0.current;
+    const t = state.clock.getElapsedTime() + t0;
     if (!ref.current) return;
 
     const merging = status === "mixing" || status === "success";
-    const radius = merging ? THREE.MathUtils.lerp(1.6, 0.05, Math.min(1, (state.clock.getElapsedTime() % 4) / 2)) : 1.6;
-
     const angle = t * (merging ? 2.2 : 0.6) + (side === "left" ? 0 : Math.PI);
     const orbitRadius = status === "success" ? 0.02 : status === "mixing" ? THREE.MathUtils.lerp(1.4, 0.1, (Math.sin(t) + 1) / 2) : 1.4;
 
@@ -45,11 +43,11 @@ function ReactantOrb({ side, status, color }) {
       <meshStandardMaterial
         color={color}
         emissive={color}
-        emissiveIntensity={0.9}
-        roughness={0.25}
-        metalness={0.1}
+        emissiveIntensity={1.3}
+        roughness={0.2}
+        metalness={0.15}
         transparent
-        opacity={0.92}
+        opacity={0.94}
       />
     </mesh>
   );
@@ -72,11 +70,11 @@ function ReactionCore({ status, productName }) {
       <mesh ref={ref} scale={0}>
         <icosahedronGeometry args={[0.5, 1]} />
         <meshStandardMaterial
-          color="#9fe000"
-          emissive="#9fe000"
-          emissiveIntensity={1.1}
-          roughness={0.15}
-          metalness={0.2}
+          color="#b6ff00"
+          emissive="#b6ff00"
+          emissiveIntensity={1.6}
+          roughness={0.1}
+          metalness={0.25}
         />
       </mesh>
       {status === "success" && (
@@ -100,9 +98,9 @@ function ChamberGlass() {
     <mesh>
       <cylinderGeometry args={[1.05, 0.85, 2.1, 32, 1, true]} />
       <meshPhysicalMaterial
-        color="#9fe000"
+        color="#b6ff00"
         transparent
-        opacity={0.06}
+        opacity={0.08}
         roughness={0.05}
         metalness={0}
         transmission={0.9}
@@ -113,7 +111,7 @@ function ChamberGlass() {
   );
 }
 
-function Rig({ status }) {
+function Rig({ status, productName }) {
   const group = useRef();
   useFrame((state) => {
     if (!group.current) return;
@@ -122,9 +120,9 @@ function Rig({ status }) {
   return (
     <group ref={group}>
       <ChamberGlass />
-      <ReactantOrb side="left" status={status} color="#c97a2b" />
-      <ReactantOrb side="right" status={status} color="#6b3a2c" />
-      <ReactionCore status={status} />
+      <ReactantOrb side="left" status={status} color="#e2811a" />
+      <ReactantOrb side="right" status={status} color="#7a3a22" />
+      <ReactionCore status={status} productName={productName} />
     </group>
   );
 }
@@ -141,9 +139,9 @@ function Loader() {
 
 export default function ReactionChamber3D({ status = "idle", productName = "" }) {
   const dustColor = useMemo(() => {
-    if (status === "success") return "#9fe000";
-    if (status === "fail") return "#b3402c";
-    return "#d8a93d";
+    if (status === "success") return "#b6ff00";
+    if (status === "fail") return "#ff3b2e";
+    return "#f0b429";
   }, [status]);
 
   return (
@@ -156,13 +154,14 @@ export default function ReactionChamber3D({ status = "idle", productName = "" })
       }}
     >
       <Canvas camera={{ position: [0, 0.4, 4.2], fov: 42 }} dpr={[1, 1.5]}>
-        <color attach="background" args={["#0f0d0a"]} />
-        <ambientLight intensity={0.35} />
-        <pointLight position={[2, 2, 2]} intensity={1.1} color="#d8a93d" />
-        <pointLight position={[-2, -1, -2]} intensity={0.8} color="#9fe000" />
+        <color attach="background" args={["#08070a"]} />
+        <ambientLight intensity={0.28} />
+        <pointLight position={[2, 2, 2]} intensity={1.6} color="#f0b429" />
+        <pointLight position={[-2, -1, -2]} intensity={1.3} color="#b6ff00" />
+        <pointLight position={[0, 1.5, -2]} intensity={0.7} color="#5fe6ff" />
         <Suspense fallback={<Loader />}>
-          <Rig status={status} />
-          <Sparkles count={60} scale={4} size={2} speed={0.25} color={dustColor} opacity={0.5} />
+          <Rig status={status} productName={productName} />
+          <Sparkles count={80} scale={4.2} size={2.4} speed={0.3} color={dustColor} opacity={0.65} />
         </Suspense>
       </Canvas>
       <div
@@ -178,7 +177,7 @@ export default function ReactionChamber3D({ status = "idle", productName = "" })
         <span
           style={{
             color:
-              status === "success" ? "var(--toxic)" : status === "fail" ? "var(--danger)" : "var(--mustard)",
+              status === "success" ? "var(--toxic-hot)" : status === "fail" ? "var(--danger)" : "var(--mustard)",
           }}
         >
           {status.toUpperCase()}

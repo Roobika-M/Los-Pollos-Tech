@@ -14,17 +14,19 @@ function DashboardCard({ title, description, onClick, buttonText }) {
         minWidth: "220px",
       }}
     >
+      <span className="inline-note">Lab Station</span>
       <div
         style={{
-          width: "34px",
-          height: "3px",
+          width: "48px",
+          height: "4px",
           background: "var(--toxic)",
           boxShadow: "0 0 8px var(--toxic)",
-          marginBottom: "16px",
+          margin: "14px 0 18px",
+          borderRadius: "999px",
         }}
       />
       <h2 style={{ fontSize: "20px", marginBottom: "8px" }}>{title}</h2>
-      <p className="muted" style={{ fontSize: "14px", lineHeight: 1.5, margin: 0 }}>
+      <p className="muted" style={{ fontSize: "14px", lineHeight: 1.6, margin: 0 }}>
         {description}
       </p>
       <div
@@ -34,10 +36,11 @@ function DashboardCard({ title, description, onClick, buttonText }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: "12px",
         }}
       >
         <span>{buttonText ? buttonText.toUpperCase() : "OPEN STATION"}</span>
-        <span style={{ color: "var(--mustard)" }}>&rarr;</span>
+        <span style={{ color: "var(--mustard)" }}>→</span>
       </div>
     </div>
   );

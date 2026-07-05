@@ -1,8 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import HazardStripe from "../components/HazardStripe";
 
 function AddReaction() {
+  const navigate = useNavigate();
   const [reactantOne, setReactantOne] = useState("");
   const [reactantTwo, setReactantTwo] = useState("");
   const [product, setProduct] = useState("");
@@ -59,38 +61,49 @@ function AddReaction() {
     <div className="app-shell">
       <HazardStripe thin />
 
-      <div className="container" style={{ paddingTop: "40px", maxWidth: "620px" }}>
-        <span className="label-tag">FIELD LOG ENTRY</span>
-        <h1 style={{ fontSize: "clamp(26px, 4.5vw, 40px)", marginTop: "14px" }}>
-          Log a new procedure
-        </h1>
-        <p className="muted" style={{ marginTop: "8px", marginBottom: "28px" }}>
-          Every detail matters. Incomplete entries won't clear review.
-        </p>
+      <div className="page-hero tight">
+        <div className="container" style={{ maxWidth: "760px" }}>
+          <div className="page-toolbar">
+            <a className="back-link" href="/home" onClick={(event) => {
+              event.preventDefault();
+              navigate("/home");
+            }}>
+              Back to control panel
+            </a>
+            <span className="label-tag">FIELD LOG ENTRY</span>
+          </div>
 
-        <div className="panel panel-rivets" style={{ padding: "26px" }}>
-          {fields.map((field) => (
-            <div className="field-group" key={field.label}>
-              <label className="field-label">{field.label}</label>
-              <input
-                className="field-input"
-                type="text"
-                placeholder={field.placeholder}
-                value={field.value}
-                onChange={(event) => field.set(event.target.value)}
-              />
-            </div>
-          ))}
+          <div className="page-copy" style={{ marginBottom: "22px" }}>
+            <h1 style={{ fontSize: "clamp(26px, 4.5vw, 42px)" }}>Log a new procedure</h1>
+            <p className="muted" style={{ margin: 0, lineHeight: 1.65 }}>
+              Every detail matters. Incomplete entries will not clear review.
+            </p>
+          </div>
 
-          <button className="btn-hazard" style={{ width: "100%", marginTop: "6px" }} onClick={addReaction}>
-            Commit to Ledger
-          </button>
+          <div className="panel panel-rivets surface-panel">
+            {fields.map((field) => (
+              <div className="field-group" key={field.label}>
+                <label className="field-label">{field.label}</label>
+                <input
+                  className="field-input"
+                  type="text"
+                  placeholder={field.placeholder}
+                  value={field.value}
+                  onChange={(event) => field.set(event.target.value)}
+                />
+              </div>
+            ))}
 
-          {message && (
-            <div className={`status-line ${message.includes("successfully") ? "ok" : "warn"}`}>
-              {message}
-            </div>
-          )}
+            <button className="btn-hazard" style={{ width: "100%", marginTop: "6px" }} onClick={addReaction}>
+              Commit to Ledger
+            </button>
+
+            {message && (
+              <div className={`status-line ${message.includes("successfully") ? "ok" : "warn"}`}>
+                {message}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
