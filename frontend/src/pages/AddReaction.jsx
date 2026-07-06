@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import HazardStripe from "../components/HazardStripe";
 
 function AddReaction() {
   const navigate = useNavigate();
@@ -15,14 +14,17 @@ function AddReaction() {
 
   const addReaction = async () => {
     try {
-      const response = await axios.post(`http://localhost:8080/los/add`, {
-        reactantOne,
-        reactantTwo,
-        product,
-        reactionType,
-        conditions,
-        description,
-      });
+      const response = await axios.post(
+        `http://localhost:8080/los/add`,
+        {
+          reactantOne,
+          reactantTwo,
+          product,
+          reactionType,
+          conditions,
+          description,
+        }
+      );
 
       console.log(response.data);
 
@@ -48,63 +50,84 @@ function AddReaction() {
     }
   };
 
-  const fields = [
-    { label: "Reactant One", value: reactantOne, set: setReactantOne, placeholder: "e.g. Sodium" },
-    { label: "Reactant Two", value: reactantTwo, set: setReactantTwo, placeholder: "e.g. Chlorine" },
-    { label: "Product", value: product, set: setProduct, placeholder: "e.g. Sodium Chloride" },
-    { label: "Reaction Type", value: reactionType, set: setReactionType, placeholder: "e.g. Synthesis" },
-    { label: "Conditions", value: conditions, set: setConditions, placeholder: "e.g. Heat, 400°C" },
-    { label: "Description", value: description, set: setDescription, placeholder: "Field notes on the procedure" },
-  ];
-
   return (
-    <div className="app-shell">
-      <HazardStripe thin />
+    <div className="page">
+      <button className="page-back" onClick={() => navigate("/home")}>&larr; Lab</button>
 
-      <div className="page-hero tight">
-        <div className="container" style={{ maxWidth: "760px" }}>
-          <div className="page-toolbar">
-            <a className="back-link" href="/home" onClick={(event) => {
-              event.preventDefault();
-              navigate("/home");
-            }}>
-              Back to control panel
-            </a>
-            <span className="label-tag">FIELD LOG ENTRY</span>
-          </div>
+      <div className="eyebrow">Los Pollos Tech</div>
+      <h1 className="page-title">New Formula</h1>
+      <p className="page-subtitle">Log a new reaction to the permanent record.</p>
 
-          <div className="page-copy" style={{ marginBottom: "22px" }}>
-            <h1 style={{ fontSize: "clamp(26px, 4.5vw, 42px)" }}>Log a new procedure</h1>
-            <p className="muted" style={{ margin: 0, lineHeight: 1.65 }}>
-              Every detail matters. Incomplete entries will not clear review.
-            </p>
-          </div>
-
-          <div className="panel panel-rivets surface-panel">
-            {fields.map((field) => (
-              <div className="field-group" key={field.label}>
-                <label className="field-label">{field.label}</label>
-                <input
-                  className="field-input"
-                  type="text"
-                  placeholder={field.placeholder}
-                  value={field.value}
-                  onChange={(event) => field.set(event.target.value)}
-                />
-              </div>
-            ))}
-
-            <button className="btn-hazard" style={{ width: "100%", marginTop: "6px" }} onClick={addReaction}>
-              Commit to Ledger
-            </button>
-
-            {message && (
-              <div className={`status-line ${message.includes("successfully") ? "ok" : "warn"}`}>
-                {message}
-              </div>
-            )}
-          </div>
+      <div className="panel form-panel">
+        <div className="field">
+          <label>Reactant One</label>
+          <input
+            type="text"
+            placeholder="Reactant One"
+            value={reactantOne}
+            onChange={(event) => setReactantOne(event.target.value)}
+          />
         </div>
+
+        <div className="field">
+          <label>Reactant Two</label>
+          <input
+            type="text"
+            placeholder="Reactant Two"
+            value={reactantTwo}
+            onChange={(event) => setReactantTwo(event.target.value)}
+          />
+        </div>
+
+        <div className="field">
+          <label>Product</label>
+          <input
+            type="text"
+            placeholder="Product"
+            value={product}
+            onChange={(event) => setProduct(event.target.value)}
+          />
+        </div>
+
+        <div className="field">
+          <label>Reaction Type</label>
+          <input
+            type="text"
+            placeholder="Reaction Type"
+            value={reactionType}
+            onChange={(event) => setReactionType(event.target.value)}
+          />
+        </div>
+
+        <div className="field">
+          <label>Conditions</label>
+          <input
+            type="text"
+            placeholder="Conditions"
+            value={conditions}
+            onChange={(event) => setConditions(event.target.value)}
+          />
+        </div>
+
+        <div className="field">
+          <label>Description</label>
+          <input
+            type="text"
+            placeholder="Description"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+          />
+        </div>
+
+        <button className="btn-outline" onClick={addReaction}>
+          Commit to Record
+        </button>
+
+        {message && (
+          <p className={`status-msg ${message.includes("successfully") ? "ok" : "err"}`}>
+            {message}
+          </p>
+        )}
       </div>
     </div>
   );
