@@ -1,26 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import ElementTile from "../components/ElementTile";
+import LosPollosLogo from "../components/LosPollosLogo";
+import "./Landing.css";
 
 function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div className="page" style={{ justifyContent: "center", paddingTop: 0 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <div className="landing-page">
+      <div className="landing-page__backdrop" aria-hidden="true" />
+      <div className="landing-page__smoke" aria-hidden="true" />
 
-        <div className="hero-word-row">
-          <span className="hero-word">los</span>
-        </div>
-
-        <div className="hero-word-row">
-          <ElementTile number={84} symbol="Po" mass={209} size="lg" />
-          <span className="hero-word">llos</span>
-        </div>
-
-        <div className="hero-word-row">
-          <ElementTile number={52} symbol="Te" mass={127.6} size="lg" />
-          <span className="hero-word">ch</span>
-        </div>
+      <div className="landing-page__content">
+        <LosPollosLogo />
 
         <div className="hero-tagline">PURE. STABLE. LEGAL.</div>
 
