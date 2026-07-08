@@ -1,59 +1,26 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import IntroSequence from "../components/IntroSequence";
+import LosPollosLogo from "../components/LosPollosLogo";
+import "./Landing.css";
 
-const INTRO_SEEN_KEY = "pollos-intro-seen";
-
-/**
- * Route: "/". This is the ONLY thing that lives at the root — there
- * is no separate landing page anymore. The flow is strictly:
- *
- *   App starts -> IntroSequence (cinematic cold-open) -> "/home"
- *
- * IntroSequence owns its own "Enter the Lab" button and its own
- * smoke-expand / blur / fade-to-black exit animation (see
- * IntroSequence.jsx + IntroSequence.css). Once that exit finishes,
- * onComplete() fires here and we navigate straight into the
- * dashboard. Nothing renders in between.
- *
- * The intro is a once-per-session cold open: if it already played
- * this session, landing on "/" again (e.g. via a stray link, or the
- * browser back button) skips straight to the dashboard instead of
- * replaying it. A hard refresh clears sessionStorage, so it plays
- * again from a truly cold start.
- */
 function Landing() {
   const navigate = useNavigate();
 
-  const [alreadySeen] = useState(() => {
-    try {
-      return Boolean(sessionStorage.getItem(INTRO_SEEN_KEY));
-    } catch {
-      return false;
-    }
-  });
+  return (
+    <div className="landing-page">
+      <div className="landing-page__backdrop" aria-hidden="true" />
+      <div className="landing-page__smoke" aria-hidden="true" />
 
-  useEffect(() => {
-    if (alreadySeen) {
-      navigate("/home", { replace: true });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      <div className="landing-page__content">
+        <LosPollosLogo />
 
-  const finishIntro = () => {
-    try {
-      sessionStorage.setItem(INTRO_SEEN_KEY, "1");
-    } catch {
-      /* private browsing / storage disabled — just skip persisting */
-    }
-    navigate("/home", { replace: true });
-  };
+        <div className="hero-tagline">PURE. STABLE. LEGAL.</div>
 
-  // Already seen this session: render nothing while the redirect
-  // above kicks in, rather than flashing the intro for a frame.
-  if (alreadySeen) return null;
-
-  return <IntroSequence onComplete={finishIntro} />;
+        <button className="btn-outline" onClick={() => navigate("/home")}>
+          Enter the Lab
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default Landing;

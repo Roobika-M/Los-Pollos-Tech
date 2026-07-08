@@ -1,0 +1,119 @@
+/* ===================================================================
+   Landing — full-bleed dark chalkboard-green backdrop behind the
+   Los Pollos Tech wordmark, matching the reference key art: a soft
+   green glow behind the logo, fine grain, and several slow-moving
+   smoke wisps that actually travel across the screen rather than
+   just breathing in place.
+   =================================================================== */
+
+.landing-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-page__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 38%, rgba(40, 190, 110, 0.30), rgba(0, 0, 0, 0) 65%),
+    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(10, 60, 35, 0.55), rgba(0, 0, 0, 0) 60%),
+    var(--noise-tex),
+    linear-gradient(160deg, #04140b 0%, #020c07 45%, #000000 100%);
+  background-blend-mode: overlay, normal, overlay, normal;
+}
+
+/* ---- drifting smoke: a stack of three independently-moving wisps.
+   The base element handles one layer, and ::before / ::after carry
+   the other two so each can travel a different path at a different
+   speed without extra markup. Together they read as fog that's
+   actually rolling across the frame, not a fixed glow pulsing. ---- */
+
+.landing-page__smoke {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.landing-page__smoke,
+.landing-page__smoke::before,
+.landing-page__smoke::after {
+  filter: blur(20px);
+}
+
+.landing-page__smoke {
+  background:
+    radial-gradient(ellipse 42% 38% at 78% 82%, rgba(150, 255, 130, 0.22), rgba(0, 0, 0, 0) 70%),
+    radial-gradient(ellipse 38% 34% at 88% 55%, rgba(180, 255, 150, 0.16), rgba(0, 0, 0, 0) 70%);
+  animation: pollos-smoke-drift-a 34s ease-in-out infinite;
+}
+
+.landing-page__smoke::before,
+.landing-page__smoke::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.landing-page__smoke::before {
+  background:
+    radial-gradient(ellipse 36% 32% at 12% 92%, rgba(120, 230, 110, 0.18), rgba(0, 0, 0, 0) 70%),
+    radial-gradient(ellipse 30% 28% at 25% 70%, rgba(150, 255, 190, 0.13), rgba(0, 0, 0, 0) 70%);
+  animation: pollos-smoke-drift-b 46s ease-in-out infinite;
+}
+
+.landing-page__smoke::after {
+  background:
+    radial-gradient(ellipse 30% 26% at 55% 12%, rgba(160, 255, 170, 0.14), rgba(0, 0, 0, 0) 70%),
+    radial-gradient(ellipse 26% 24% at 40% 30%, rgba(120, 230, 130, 0.10), rgba(0, 0, 0, 0) 70%);
+  animation: pollos-smoke-drift-c 58s ease-in-out infinite;
+}
+
+/* each layer meanders along its own loose path across the viewport,
+   scaling and dimming slightly at the turns so it reads as tumbling
+   vapor rather than a shape sliding on rails */
+@keyframes pollos-smoke-drift-a {
+  0%   { transform: translate(0%, 0%) scale(1);     opacity: 0.8; }
+  30%  { transform: translate(-14%, -10%) scale(1.12); opacity: 1; }
+  60%  { transform: translate(-26%, 4%) scale(0.96);  opacity: 0.75; }
+  100% { transform: translate(0%, 0%) scale(1);     opacity: 0.8; }
+}
+
+@keyframes pollos-smoke-drift-b {
+  0%   { transform: translate(0%, 0%) scale(1);      opacity: 0.7; }
+  35%  { transform: translate(16%, -14%) scale(1.15);  opacity: 0.95; }
+  70%  { transform: translate(8%, -28%) scale(0.9);   opacity: 0.6; }
+  100% { transform: translate(0%, 0%) scale(1);      opacity: 0.7; }
+}
+
+@keyframes pollos-smoke-drift-c {
+  0%   { transform: translate(0%, 0%) scale(1);      opacity: 0.65; }
+  40%  { transform: translate(-10%, 16%) scale(1.1);   opacity: 0.9; }
+  75%  { transform: translate(12%, 8%) scale(0.94);   opacity: 0.55; }
+  100% { transform: translate(0%, 0%) scale(1);      opacity: 0.65; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page__smoke,
+  .landing-page__smoke::before,
+  .landing-page__smoke::after {
+    animation: none;
+  }
+}
+
+.landing-page__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
