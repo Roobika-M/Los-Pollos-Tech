@@ -1,0 +1,386 @@
+/* ===================================================================
+   INTRO SEQUENCE — full-screen cold open before the Landing page.
+   Black -> dust -> periodic elements -> smoke -> camera push ->
+   depth field -> Po/Te converge -> wordmark assembles -> subtitle
+   types out -> Enter the Lab. Everything heavy, slow, cinematic —
+   no bounce, no elastic easing, no fast movement.
+   =================================================================== */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--void);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro__skip {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 20;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--panel-border);
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  opacity: 0;
+  animation: intro-fade-in 1.2s ease forwards;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.intro__skip:hover {
+  color: var(--green-core);
+  border-color: var(--panel-border-strong);
+}
+
+/* the "camera": scales + drifts the whole scene forward very slowly
+   from stage 3 (push) onward, then holds */
+.intro__stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: scale(1) translateZ(0);
+  transition: transform 7s cubic-bezier(0.16, 0.5, 0.2, 1);
+}
+.intro--stage-4 .intro__stage,
+.intro--stage-5 .intro__stage,
+.intro--stage-6 .intro__stage {
+  transform: scale(1.12) translateY(-1%);
+}
+.intro--stage-7 .intro__stage,
+.intro--stage-8 .intro__stage,
+.intro--stage-9 .intro__stage {
+  transform: scale(1.05) translateY(-0.5%);
+}
+
+.intro--exiting {
+  animation: intro-exit-smoke 0.9s ease forwards;
+}
+@keyframes intro-exit-smoke {
+  0%   { opacity: 1; filter: blur(0); }
+  100% { opacity: 0; filter: blur(18px); }
+}
+
+@keyframes intro-fade-in {
+  to { opacity: 1; }
+}
+
+/* ---------- dust ---------- */
+
+.intro__dust {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+}
+.intro--stage-1 .intro__dust,
+.intro--stage-2 .intro__dust,
+.intro--stage-3 .intro__dust,
+.intro--stage-4 .intro__dust,
+.intro--stage-5 .intro__dust {
+  opacity: 1;
+}
+.intro--stage-6 .intro__dust,
+.intro--stage-7 .intro__dust,
+.intro--stage-8 .intro__dust,
+.intro--stage-9 .intro__dust {
+  opacity: 0.35;
+}
+
+.intro__mote {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--green-soft);
+  box-shadow: 0 0 6px 1px var(--green-glow);
+  opacity: 0;
+  animation-name: intro-mote-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes intro-mote-drift {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  15%  { opacity: 0.55; }
+  50%  { opacity: 0.85; transform: translate(2vw, -3vh); }
+  85%  { opacity: 0.4; }
+  100% { opacity: 0; transform: translate(-2vw, -6vh); }
+}
+
+/* ---------- smoke ---------- */
+
+.intro__smoke {
+  position: absolute;
+  inset: -10%;
+  opacity: 0;
+  filter: blur(30px);
+  transition: opacity 2.4s ease;
+}
+.intro--stage-2 .intro__smoke,
+.intro--stage-3 .intro__smoke,
+.intro--stage-4 .intro__smoke,
+.intro--stage-5 .intro__smoke,
+.intro--stage-6 .intro__smoke,
+.intro--stage-7 .intro__smoke,
+.intro--stage-8 .intro__smoke,
+.intro--stage-9 .intro__smoke {
+  opacity: 1;
+}
+
+.intro__smoke-layer {
+  position: absolute;
+  inset: 0;
+}
+.intro__smoke-layer--a {
+  background: radial-gradient(ellipse 50% 40% at 30% 60%, rgba(60, 255, 110, 0.22), transparent 70%);
+  animation: intro-smoke-a 22s ease-in-out infinite;
+}
+.intro__smoke-layer--b {
+  background: radial-gradient(ellipse 46% 38% at 70% 35%, rgba(80, 255, 140, 0.18), transparent 70%);
+  animation: intro-smoke-b 28s ease-in-out infinite;
+}
+.intro__smoke-layer--c {
+  background: radial-gradient(ellipse 60% 45% at 50% 85%, rgba(40, 200, 90, 0.16), transparent 70%);
+  animation: intro-smoke-c 34s ease-in-out infinite;
+}
+@keyframes intro-smoke-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6%, -4%) scale(1.15); }
+}
+@keyframes intro-smoke-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-8%, 5%) scale(1.1); }
+}
+@keyframes intro-smoke-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4%, -6%) scale(1.08); }
+}
+
+/* ---------- periodic elements (wave 1 + wave 2) ---------- */
+
+.intro__elements {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+.intro__elements--wave1 {
+  transition-delay: 0s;
+}
+.intro--stage-1 .intro__elements--wave1,
+.intro--stage-2 .intro__elements--wave1,
+.intro--stage-3 .intro__elements--wave1,
+.intro--stage-4 .intro__elements--wave1,
+.intro--stage-5 .intro__elements--wave1 {
+  opacity: 1;
+}
+.intro--stage-2 .intro__elements--wave2,
+.intro--stage-3 .intro__elements--wave2,
+.intro--stage-4 .intro__elements--wave2,
+.intro--stage-5 .intro__elements--wave2 {
+  opacity: 0;
+}
+.intro--stage-4 .intro__elements--wave2,
+.intro--stage-5 .intro__elements--wave2 {
+  opacity: 1;
+}
+.intro--stage-6 .intro__elements--wave1,
+.intro--stage-7 .intro__elements--wave1,
+.intro--stage-8 .intro__elements--wave1,
+.intro--stage-9 .intro__elements--wave1,
+.intro--stage-6 .intro__elements--wave2,
+.intro--stage-7 .intro__elements--wave2,
+.intro--stage-8 .intro__elements--wave2,
+.intro--stage-9 .intro__elements--wave2 {
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+
+.intro__tile {
+  position: absolute;
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+  animation-name: intro-tile-drift;
+  animation-timing-function: cubic-bezier(0.3, 0, 0.4, 1);
+  animation-iteration-count: infinite;
+}
+.intro__tile .element-tile {
+  --tile-size: 56px;
+}
+.intro__tile .element-tile .symbol { font-size: 20px; }
+.intro__tile .element-tile .atomic-number { font-size: 9px; }
+.intro__tile .element-tile .mass { font-size: 7px; }
+
+.intro__tile--depth .element-tile {
+  --tile-size: 74px;
+}
+.intro__tile--depth .element-tile .symbol { font-size: 26px; }
+
+@keyframes intro-tile-drift {
+  0%   { opacity: 0; transform: translate(-50%, -46%) rotate(var(--rot)) scale(calc(var(--scale) * 0.9)); }
+  12%  { opacity: 0.9; }
+  50%  { opacity: 1; transform: translate(-50%, -52%) rotate(calc(var(--rot) + 6deg)) scale(var(--scale)); }
+  88%  { opacity: 0.8; }
+  100% { opacity: 0; transform: translate(-50%, -58%) rotate(calc(var(--rot) + 10deg)) scale(calc(var(--scale) * 1.05)); }
+}
+
+/* ---------- wordmark assembly (Po / Te persist, converge, logo forms) ---------- */
+
+.intro__logo {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 1.8s ease, transform 1.8s cubic-bezier(0.16, 0.6, 0.2, 1);
+}
+.intro--stage-6 .intro__logo,
+.intro--stage-7 .intro__logo,
+.intro--stage-8 .intro__logo,
+.intro--stage-9 .intro__logo {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.intro__logo-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.intro__word {
+  font-family: var(--font-slab);
+  font-size: 52px;
+  color: var(--white-ish);
+  text-shadow: 0 0 20px var(--green-glow);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 1.4s ease, transform 1.4s ease;
+}
+.intro--stage-7 .intro__word,
+.intro--stage-8 .intro__word,
+.intro--stage-9 .intro__word {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.intro__anchor {
+  opacity: 0;
+  transform: translateY(-30px) scale(0.7) rotate(-8deg);
+  transition: opacity 2s cubic-bezier(0.16, 0.6, 0.2, 1), transform 2s cubic-bezier(0.16, 0.6, 0.2, 1);
+}
+.intro__anchor--po { transition-delay: 0s; }
+.intro__anchor--te { transition-delay: 0.25s; }
+.intro--stage-7 .intro__anchor,
+.intro--stage-8 .intro__anchor,
+.intro--stage-9 .intro__anchor {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(0deg);
+}
+
+@media (max-width: 720px) {
+  .intro__word { font-size: 32px; }
+  .intro__anchor .element-tile { --tile-size: 62px; }
+}
+
+/* ---------- subtitle, letter by letter ---------- */
+
+.intro__subtitle {
+  position: relative;
+  z-index: 5;
+  margin-top: 32px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--green-core);
+  text-align: center;
+  padding-left: 0.5em;
+}
+
+.intro__letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(6px);
+}
+.intro--stage-8 .intro__letter,
+.intro--stage-9 .intro__letter {
+  animation: intro-letter-in 0.5s ease forwards;
+}
+
+@keyframes intro-letter-in {
+  to { opacity: 0.85; transform: translateY(0); }
+}
+
+/* ---------- CTA ---------- */
+
+.intro__cta {
+  position: relative;
+  z-index: 5;
+  margin-top: 40px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+.intro--stage-9 .intro__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro__enter {
+  animation: intro-enter-breathe 3.2s ease-in-out infinite;
+}
+@keyframes intro-enter-breathe {
+  0%, 100% { box-shadow: 0 0 0 rgba(89, 255, 160, 0); }
+  50% { box-shadow: 0 0 22px -4px var(--green-glow); }
+}
+
+/* the logo + subtitle + cta stack centered as one column */
+.intro__stage > .intro__logo,
+.intro__stage > .intro__subtitle,
+.intro__stage > .intro__cta {
+  position: absolute;
+  left: 50%;
+  transform-origin: center;
+}
+.intro__stage > .intro__logo { top: 38%; transform: translate(-50%, -50%) scale(var(--logo-scale, 1)); }
+.intro--stage-6 .intro__stage > .intro__logo,
+.intro--stage-7 .intro__stage > .intro__logo,
+.intro--stage-8 .intro__stage > .intro__logo,
+.intro--stage-9 .intro__stage > .intro__logo {
+  transform: translate(-50%, -50%) scale(1);
+}
+.intro__stage > .intro__subtitle { top: 60%; transform: translateX(-50%); }
+.intro__stage > .intro__cta { top: 70%; transform: translateX(-50%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro__mote,
+  .intro__tile,
+  .intro__smoke-layer,
+  .intro__enter {
+    animation: none !important;
+  }
+  .intro__stage {
+    transition: none !important;
+  }
+  .intro__dust,
+  .intro__elements {
+    display: none;
+  }
+  .intro__logo,
+  .intro__word,
+  .intro__anchor,
+  .intro__letter,
+  .intro__cta {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
