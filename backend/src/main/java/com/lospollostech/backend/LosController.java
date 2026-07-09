@@ -24,32 +24,32 @@ public class LosController {
         this.losService = losService;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add") //used to add reactios in jpa
     public LosEntity add(@RequestBody LosEntity reaction){
         return losService.addReaction(reaction);
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get") //getReaction
     public List<LosEntity> getAll(){
         return losService.getReaction();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") //getElements by id
     public LosEntity getElementById(@PathVariable Long id){
         return losService.getById(id);
     }
     
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{id}") //used to update id
     public LosEntity update(@PathVariable Long id, @RequestBody LosEntity reaction){
         return losService.updateReaction(id,reaction);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}") //delete id from jps
     public void delete(@PathVariable Long id){
         losService.deleteReaction(id);
     }
 
-    @GetMapping("/mix")
+    @GetMapping("/mix") //mixitiy mix
     public ResponseEntity<List<LosEntity>> mix(@RequestParam String reactantOne,@RequestParam String reactantTwo) {
         List<LosEntity> reactions = losService.mix(reactantOne, reactantTwo);
         if (reactions.isEmpty()) {
