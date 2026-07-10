@@ -2,6 +2,7 @@ package com.lospollostech.backend;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +26,7 @@ public class LosController {
     }
 
     @PostMapping("/add") //used to add reactios in jpa
-    public LosEntity add(@RequestBody LosEntity reaction){
+    public LosEntity add(@Valid @RequestBody LosEntity reaction){
         return losService.addReaction(reaction);
     }
 
@@ -34,13 +35,13 @@ public class LosController {
         return losService.getReaction();
     }
 
-    @GetMapping("/{id}") //getElements by id
+    @GetMapping("/get/{id}") //getElements by id
     public LosEntity getElementById(@PathVariable Long id){
         return losService.getById(id);
     }
     
     @PutMapping("/update/{id}") //used to update id
-    public LosEntity update(@PathVariable Long id, @RequestBody LosEntity reaction){
+    public LosEntity update(@PathVariable Long id, @Valid @RequestBody LosEntity reaction){
         return losService.updateReaction(id,reaction);
     }
 

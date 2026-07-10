@@ -2,6 +2,8 @@ package com.lospollostech.backend;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,13 +15,18 @@ public class LosService {
         this.losRepo = losRepo;
     }
     public LosEntity addReaction(LosEntity reaction){
+        if (!losRepo.findByReactantOneAndReactantTwoOrReactantOneAndReactantTwo(
+                reaction.getReactantOne(),
+                reaction.getReactantTwo()).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Reaction already exists");
+        }
         return losRepo.save(reaction);
     }
     public List<LosEntity> getReaction(){
         return losRepo.findAll();
     }
     public LosEntity getById(Long id){
-        return losRepo.findById(id).orElse(null);
+        return losRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reaction not found"));
     }
     public LosEntity updateReaction(Long id, LosEntity reaction) {
         LosEntity existingReaction = losRepo.findById(id).orElse(null);
@@ -42,9 +49,7 @@ public class LosService {
     public List<LosEntity> mix(String reactantOne, String reactantTwo){
         return losRepo.findByReactantOneAndReactantTwoOrReactantOneAndReactantTwo(
             reactantOne,
-            reactantTwo,
-            reactantTwo,
-            reactantOne
+            reactantTwo
         );
     }
 }

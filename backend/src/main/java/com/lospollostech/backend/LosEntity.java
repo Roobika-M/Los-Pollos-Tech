@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class LosEntity {
@@ -11,11 +12,22 @@ public class LosEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String reactantOne;
+
+    @NotBlank
     private String reactantTwo;
+
+    @NotBlank
     private String product;
+
+    @NotBlank
     private String reactionType;
+
+    @NotBlank
     private String conditions;
+
+    @NotBlank
     private String description;
 
     public LosEntity(){
