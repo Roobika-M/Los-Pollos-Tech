@@ -35,6 +35,14 @@ function Home() {
           mass={39.95}
           onClick={() => navigate("/view")}
         />
+        <Card
+          title="The network"
+          description="Connecting the dots, let that sink in."
+          number={10}
+          symbol="Ne"
+          mass={20.18}
+          onClick={() => navigate("/graph")}
+        />
       </div>
     </div>
   );

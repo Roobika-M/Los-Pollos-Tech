@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Mix from "./pages/Mix";
 import AddReaction from "./pages/AddReaction";
 import ViewReactions from "./pages/ViewReactions";
+import ReactionGraph from "./pages/ReactionGraph";
 
 function App (){
   return (
@@ -15,6 +16,7 @@ function App (){
         <Route path="/mix" element={<Mix />} />
         <Route path="/add" element={<AddReaction />} />
         <Route path="/view" element={<ViewReactions />} />
+        <Route path="/graph" element={<ReactionGraph />} />
       </Routes>
     </BrowserRouter>
   );

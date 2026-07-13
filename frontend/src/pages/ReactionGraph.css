@@ -1,0 +1,221 @@
+/* ===================================================================
+   THE NETWORK — graph view styling. Same void/green lab language as
+   the rest of the app, just given room to breathe: a wide glass
+   panel holding the live SVG map, with a side-loading detail card
+   that slides in when a node is selected.
+   =================================================================== */
+
+.graph-page {
+  padding-bottom: 100px;
+}
+
+.graph-shell {
+  position: relative;
+  width: 100%;
+  max-width: 1040px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.graph-legend {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 6px;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-dot--product {
+  background: var(--green-core);
+  box-shadow: 0 0 8px var(--green-glow);
+}
+
+.legend-dot--reactant {
+  background: var(--amber);
+  box-shadow: 0 0 8px rgba(255, 176, 32, 0.5);
+}
+
+.legend-count {
+  margin-left: auto;
+  color: var(--text-faint);
+}
+
+.graph-svg {
+  width: 100%;
+  height: 560px;
+  border-radius: var(--radius);
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, rgba(89, 255, 160, 0.05), rgba(0, 0, 0, 0) 70%),
+    repeating-linear-gradient(0deg, rgba(94, 255, 158, 0.035) 0px, rgba(94, 255, 158, 0.035) 1px, transparent 1px, transparent 32px),
+    repeating-linear-gradient(90deg, rgba(94, 255, 158, 0.035) 0px, rgba(94, 255, 158, 0.035) 1px, transparent 1px, transparent 32px),
+    #030a06;
+  border: 1px solid var(--panel-border);
+  cursor: default;
+  touch-action: none;
+  user-select: none;
+}
+
+.graph-edge {
+  stroke: rgba(127, 168, 146, 0.4);
+  stroke-width: 1.4;
+  transition: stroke 0.15s ease, stroke-width 0.15s ease;
+  cursor: pointer;
+}
+
+.graph-edge--hover {
+  stroke: var(--green-core);
+  stroke-width: 2.2;
+}
+
+.graph-edge--selected {
+  stroke: var(--green-soft);
+  stroke-width: 2;
+}
+
+.edge-arrowhead {
+  fill: rgba(127, 168, 146, 0.5);
+}
+
+.graph-node {
+  cursor: grab;
+}
+
+.graph-node:active {
+  cursor: grabbing;
+}
+
+.node-circle {
+  stroke-width: 1.5;
+  transition: filter 0.15s ease, stroke 0.15s ease;
+}
+
+.node-circle--product {
+  fill: rgba(89, 255, 160, 0.16);
+  stroke: var(--green-core);
+  filter: drop-shadow(0 0 6px var(--green-glow));
+}
+
+.node-circle--reactant {
+  fill: rgba(255, 176, 32, 0.12);
+  stroke: var(--amber);
+  filter: drop-shadow(0 0 5px rgba(255, 176, 32, 0.35));
+}
+
+.graph-node--selected .node-circle {
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 14px var(--green-glow));
+}
+
+.node-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  fill: var(--white-ish);
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: #030a06;
+  stroke-width: 3px;
+  pointer-events: none;
+}
+
+/* ---------- detail card ---------- */
+
+.graph-detail {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  max-height: 520px;
+  overflow-y: auto;
+  background: var(--panel-solid);
+  border: 1px solid var(--panel-border-strong);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.8);
+}
+
+.graph-detail__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.graph-detail__header h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--green-core);
+  text-shadow: 0 0 10px var(--green-glow);
+  margin: 0;
+}
+
+.graph-detail__close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+.graph-detail__close:hover {
+  color: var(--danger);
+}
+
+.graph-detail__list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.graph-detail__row {
+  border-top: 1px solid var(--panel-border);
+  padding-top: 12px;
+}
+.graph-detail__row:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.graph-detail__equation {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--white-ish);
+  margin-bottom: 6px;
+}
+
+.arrow-glyph {
+  color: var(--green-core);
+}
+
+@media (max-width: 720px) {
+  .graph-svg { height: 420px; }
+  .graph-detail {
+    position: static;
+    width: 100%;
+    margin-top: 12px;
+  }
+}
